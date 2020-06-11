@@ -1,4 +1,4 @@
 # Alley App
 
-A new Flutter project.
+A mobile app for management of lower divisions basketball teams.
 
