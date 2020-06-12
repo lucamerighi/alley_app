@@ -5,7 +5,7 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
-      color: Color(0xffF1EFF1),
+      color: Colors.orange[100],
       child: Center(
         // child: SpinKitWanderingCubes(
         //   color: Colors.orange,

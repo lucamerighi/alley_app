@@ -40,101 +40,113 @@ class _ViewRegisterState extends State<ViewRegister> {
                     label: Text('Login'),
                   )
                 ]),
-            body: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: 20.0),
-                      TextFormField(
-                        decoration: TextInputDecoration.copyWith(hintText: 'Email'),
-                        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
-                        onChanged: (value) {
-                          setState(() => email = value);
-                        },
-                      ),
-                      SizedBox(height: 20.0),
-                      TextFormField(
-                        decoration: TextInputDecoration.copyWith(hintText: 'Password'),
-                        validator: (value) => value.length < 6 ? 'Password must be at least 6 long' : null,
-                        onChanged: (value) {
-                          setState(() => password = value);
-                        },
-                        obscureText: true,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        decoration: TextInputDecoration.copyWith(hintText: 'Nome'),
-                        validator: (value) => value.isEmpty ? 'Inserire il nome' : null,
-                        onChanged: (value) {
-                          setState(() => nome = value);
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        decoration: TextInputDecoration.copyWith(hintText: 'Cognome'),
-                        validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
-                        onChanged: (value) {
-                          setState(() => cognome = value);
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                        Radio(
-                          value: Ruolo.Coach,
-                          groupValue: ruolo,
-                          onChanged: (Ruolo r) {
-                            setState(() {
-                              ruolo = r;
-                            });
+            body: Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: 20.0),
+                        TextFormField(
+                          decoration: TextInputDecoration.copyWith(hintText: 'Email'),
+                          validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+                          onChanged: (value) {
+                            setState(() => email = value);
                           },
                         ),
-                        Text(
-                          'Coach',
+                        SizedBox(height: 20.0),
+                        TextFormField(
+                          decoration: TextInputDecoration.copyWith(hintText: 'Password'),
+                          validator: (value) => value.length < 6 ? 'Password must be at least 6 long' : null,
+                          onChanged: (value) {
+                            setState(() => password = value);
+                          },
+                          obscureText: true,
                         ),
-                        Radio(
-                          value: Ruolo.Giocatore,
-                          groupValue: ruolo,
-                          onChanged: (Ruolo r) {
-                            setState(() {
-                              ruolo = r;
-                            });
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          decoration: TextInputDecoration.copyWith(hintText: 'Nome'),
+                          validator: (value) => value.isEmpty ? 'Inserire il nome' : null,
+                          onChanged: (value) {
+                            setState(() => nome = value);
                           },
                         ),
-                        Text(
-                          'Giocatore',
+                        SizedBox(
+                          height: 20,
                         ),
-                      ]),
-                      RaisedButton(
-                        color: Colors.orange[600],
-                        child: Text(
-                          'Crea account',
-                          style: TextStyle(color: Colors.white),
+                        TextFormField(
+                          decoration: TextInputDecoration.copyWith(hintText: 'Cognome'),
+                          validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
+                          onChanged: (value) {
+                            setState(() => cognome = value);
+                          },
                         ),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() => loading = true);
-                            dynamic result = await _auth.registerUser(email, password, nome, cognome, 'test', ruolo);
-                            if (result == null) {
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          decoration: TextInputDecoration.copyWith(hintText: 'DisplayName'),
+                          validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
+                          onChanged: (value) {
+                            setState(() => cognome = value);
+                          },
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                          Radio(
+                            value: Ruolo.Coach,
+                            groupValue: ruolo,
+                            onChanged: (Ruolo r) {
                               setState(() {
-                                error = 'please supply a valid email';
-                                loading = false;
+                                ruolo = r;
                               });
+                            },
+                          ),
+                          Text(
+                            'Coach',
+                          ),
+                          Radio(
+                            value: Ruolo.Giocatore,
+                            groupValue: ruolo,
+                            onChanged: (Ruolo r) {
+                              setState(() {
+                                ruolo = r;
+                              });
+                            },
+                          ),
+                          Text(
+                            'Giocatore',
+                          ),
+                        ]),
+                        RaisedButton(
+                          color: Colors.orange[600],
+                          child: Text(
+                            'Crea account',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() => loading = true);
+                              dynamic result = await _auth.registerUser(email, password, nome, cognome, 'test', ruolo);
+                              if (result == null) {
+                                setState(() {
+                                  error = 'please supply a valid email';
+                                  loading = false;
+                                });
+                              }
                             }
-                          }
-                        },
-                      ),
-                      Text(error)
-                    ],
+                          },
+                        ),
+                        Text(error)
+                      ],
+                    ),
                   ),
                 ),
               ),
