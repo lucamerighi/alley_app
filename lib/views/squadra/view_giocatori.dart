@@ -38,9 +38,13 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
               itemBuilder: (BuildContext ctx, int index) {
                 return ListTile(
                   title: Text(giocatori[index]),
-                  trailing: Icon(
-                    Icons.remove_circle,
-                    color: Colors.redAccent,
+                  trailing: GestureDetector(
+                    // TODO
+                    onTap: () => {},
+                    child: Icon(
+                      Icons.remove_circle,
+                      color: Colors.redAccent,
+                    ),
                   ),
                 );
               },

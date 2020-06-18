@@ -134,7 +134,7 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
                     RaisedButton(
                       color: Colors.orange[600],
                       child: Text(
-                        'Crea account',
+                        'Registra Squadra',
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {},

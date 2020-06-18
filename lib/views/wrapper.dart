@@ -14,7 +14,7 @@ class Wrapper extends StatelessWidget {
       return ViewAuthenticate();
     } else {
       return FutureProvider<User>(
-        create: (context) => DatabaseService(uid: fbuser.uid).user,
+        create: (context) => DatabaseService().getUser(fbuser.uid),
         child: Home(),
       );
     }

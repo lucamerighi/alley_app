@@ -30,7 +30,7 @@ class AuthService {
       if (fbuser == null) {
         return null;
       } else {
-        DatabaseService(uid: fbuser.uid).saveUser(email, nome, cognome, displayName, ruolo);
+        DatabaseService().saveUser(fbuser.uid, email, nome, cognome, displayName, ruolo);
         return User(uid: fbuser.uid);
       }
     } catch (e) {
