@@ -1,4 +1,5 @@
 import 'package:alley_app/services/auth.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:alley_app/shared/styles.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class ViewSignIn extends StatefulWidget {
 }
 
 class _ViewSignInState extends State<ViewSignIn> with SingleTickerProviderStateMixin {
-  final AuthService _auth = AuthService();
+  final AuthService _auth = getIt<AuthService>();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 

@@ -1,5 +1,6 @@
 import 'package:alley_app/model/data.dart';
 import 'package:alley_app/services/auth.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:alley_app/shared/styles.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class ViewRegister extends StatefulWidget {
 }
 
 class _ViewRegisterState extends State<ViewRegister> {
-  final AuthService _auth = AuthService();
+  final AuthService _auth = getIt<AuthService>();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
