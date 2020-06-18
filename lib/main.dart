@@ -1,5 +1,6 @@
 import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/auth.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/views/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,11 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  initializeDateFormatting('it_IT').then((_) => runApp(MyApp()));
+  initializeDateFormatting('it_IT').then((_) {
+    WidgetsFlutterBinding.ensureInitialized();
+    setup();
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

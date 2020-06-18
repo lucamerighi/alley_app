@@ -137,6 +137,7 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
                         'Registra Squadra',
                         style: TextStyle(color: Colors.white),
                       ),
+                      // TODO
                       onPressed: () {},
                     ),
                     Text(error)

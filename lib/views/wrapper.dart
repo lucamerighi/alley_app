@@ -1,5 +1,6 @@
 import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/database.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/views/authenticate/view_authenticate.dart';
 import 'package:alley_app/views/home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,7 @@ class Wrapper extends StatelessWidget {
       return ViewAuthenticate();
     } else {
       return FutureProvider<User>(
-        create: (context) => DatabaseService().getUser(fbuser.uid),
+        create: (context) => getIt<DatabaseService>().getUser(fbuser.uid),
         child: Home(),
       );
     }
