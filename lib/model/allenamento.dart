@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
 class Allenamento {
-  String id;
+  final String id;
   DateTime dataEORa;
   String luogo;
   String idSquadra;
   String turnoCibo;
 
-  Allenamento(this.dataEORa, this.luogo, this.idSquadra, this.turnoCibo) : id = UniqueKey().toString();
+  Allenamento({DateTime dataEORa, this.luogo = '', this.idSquadra = '', this.turnoCibo = ''})
+      : id = UniqueKey().toString(),
+        dataEORa = dataEORa ?? DateTime.now();
 
   String get getId => id;
 
@@ -26,4 +28,9 @@ class Allenamento {
   DateTime get getDataEOra => dataEORa;
 
   set setDataEOra(DateTime dataEOra) => this.dataEORa = dataEOra;
+
+  @override
+  String toString() {
+    return '$dataEORa $luogo $idSquadra $turnoCibo';
+  }
 }

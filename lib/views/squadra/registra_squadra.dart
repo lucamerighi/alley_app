@@ -40,108 +40,110 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: padding),
-                    DropdownButtonFormField<String>(
-                      hint: Text('Regione: '),
-                      value: regione,
-                      items: regioni
-                          .map((nome, sigla) {
-                            return MapEntry(
-                              nome,
-                              DropdownMenuItem<String>(
-                                value: sigla,
-                                child: Text(nome),
-                              ),
-                            );
-                          })
-                          .values
-                          .toList(),
-                      onChanged: (newVal) {
-                        setState(() {
-                          regione = newVal;
-                        });
-                      },
-                    ),
-                    SizedBox(height: padding),
-                    TextFormField(
-                      decoration: TextInputDecoration.copyWith(hintText: 'Id Squadra'),
-                      validator: (value) => value.length != 5 ? 'L\'ID dev\'essere composto da 5 cifre' : null,
-                      onChanged: (value) {
-                        setState(() => id = value);
-                      },
-                      obscureText: true,
-                    ),
-                    SizedBox(height: padding),
-                    TextFormField(
-                      decoration: TextInputDecoration.copyWith(hintText: 'Nome Squadra'),
-                      validator: (value) => value.isEmpty ? 'Inserire il nome' : null,
-                      onChanged: (value) {
-                        setState(() => nome = value);
-                      },
-                    ),
-                    SizedBox(height: padding),
-                    TextFormField(
-                      decoration: TextInputDecoration.copyWith(hintText: 'Girone'),
-                      validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
-                      onChanged: (value) {
-                        setState(() => girone = value);
-                      },
-                    ),
-                    SizedBox(height: padding),
-                    DropdownButtonFormField<String>(
-                      hint: Text('Campionato: '),
-                      value: campionato,
-                      items: campionati
-                          .map((nome, sigla) {
-                            return MapEntry(
-                              nome,
-                              DropdownMenuItem<String>(
-                                value: sigla,
-                                child: Text(nome),
-                              ),
-                            );
-                          })
-                          .values
-                          .toList(),
-                      onChanged: (newVal) {
-                        setState(() {
-                          campionato = newVal;
-                        });
-                      },
-                    ),
-                    SizedBox(height: padding),
-                    Row(
-                      children: <Widget>[
-                        Radio(
-                            value: Sesso.M,
-                            groupValue: sesso,
-                            onChanged: (Sesso s) => {
-                                  setState(() => {sesso = s})
-                                }),
-                        Text("Maschile"),
-                        Radio(
-                            value: Sesso.F,
-                            groupValue: sesso,
-                            onChanged: (Sesso s) => {
-                                  setState(() => {sesso = s})
-                                }),
-                        Text("Femminile"),
-                      ],
-                    ),
-                    RaisedButton(
-                      color: Colors.orange[600],
-                      child: Text(
-                        'Registra Squadra',
-                        style: TextStyle(color: Colors.white),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: padding),
+                      DropdownButtonFormField<String>(
+                        hint: Text('Regione: '),
+                        value: regione,
+                        items: regioni
+                            .map((nome, sigla) {
+                              return MapEntry(
+                                nome,
+                                DropdownMenuItem<String>(
+                                  value: sigla,
+                                  child: Text(nome),
+                                ),
+                              );
+                            })
+                            .values
+                            .toList(),
+                        onChanged: (newVal) {
+                          setState(() {
+                            regione = newVal;
+                          });
+                        },
                       ),
-                      // TODO
-                      onPressed: () {},
-                    ),
-                    Text(error)
-                  ],
+                      SizedBox(height: padding),
+                      TextFormField(
+                        decoration: TextInputDecoration.copyWith(hintText: 'Id Squadra'),
+                        validator: (value) => value.length != 5 ? 'L\'ID dev\'essere composto da 5 cifre' : null,
+                        onChanged: (value) {
+                          setState(() => id = value);
+                        },
+                        obscureText: true,
+                      ),
+                      SizedBox(height: padding),
+                      TextFormField(
+                        decoration: TextInputDecoration.copyWith(hintText: 'Nome Squadra'),
+                        validator: (value) => value.isEmpty ? 'Inserire il nome' : null,
+                        onChanged: (value) {
+                          setState(() => nome = value);
+                        },
+                      ),
+                      SizedBox(height: padding),
+                      TextFormField(
+                        decoration: TextInputDecoration.copyWith(hintText: 'Girone'),
+                        validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
+                        onChanged: (value) {
+                          setState(() => girone = value);
+                        },
+                      ),
+                      SizedBox(height: padding),
+                      DropdownButtonFormField<String>(
+                        hint: Text('Campionato: '),
+                        value: campionato,
+                        items: campionati
+                            .map((nome, sigla) {
+                              return MapEntry(
+                                nome,
+                                DropdownMenuItem<String>(
+                                  value: sigla,
+                                  child: Text(nome),
+                                ),
+                              );
+                            })
+                            .values
+                            .toList(),
+                        onChanged: (newVal) {
+                          setState(() {
+                            campionato = newVal;
+                          });
+                        },
+                      ),
+                      SizedBox(height: padding),
+                      Row(
+                        children: <Widget>[
+                          Radio(
+                              value: Sesso.M,
+                              groupValue: sesso,
+                              onChanged: (Sesso s) => {
+                                    setState(() => {sesso = s})
+                                  }),
+                          Text("Maschile"),
+                          Radio(
+                              value: Sesso.F,
+                              groupValue: sesso,
+                              onChanged: (Sesso s) => {
+                                    setState(() => {sesso = s})
+                                  }),
+                          Text("Femminile"),
+                        ],
+                      ),
+                      RaisedButton(
+                        color: Colors.orange[600],
+                        child: Text(
+                          'Registra Squadra',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        // TODO
+                        onPressed: () {},
+                      ),
+                      Text(error)
+                    ],
+                  ),
                 ),
               ),
             ),
