@@ -97,12 +97,12 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
               itemCount: allenamenti.length,
               itemBuilder: (BuildContext ctx, int index) {
                 Allenamento all = allenamenti[index];
-                print(all);
                 return InkWell(
                   onTap: () => _showEditAllenamento(all),
                   child: ListTile(
                     title: Text(formatter.format(all.dataEORa)),
                     subtitle: Text(all.luogo + (all.turnoCibo != '' ? '\nTurno Cibo: ${all.turnoCibo}' : '')),
+                    trailing: Icon(Icons.keyboard_arrow_right),
                   ),
                 );
               },
