@@ -1,4 +1,5 @@
-import 'package:alley_app/model/Allenamento.dart';
+import 'package:alley_app/model/allenamento.dart';
+import 'package:alley_app/shared/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -12,12 +13,14 @@ class ViewAllenamenti extends StatefulWidget {
 
 class _ViewAllenamentiState extends State<ViewAllenamenti> {
   List<Allenamento> allenamenti = [
-    Allenamento(DateTime.parse('2020-04-01 20:30'), "Via di Qua, 7, Bologna", "40017", ""),
-    Allenamento(DateTime.parse('2020-04-04 20:30'), "Via di Qua, 7, Bologna", "40017", "Caio"),
-    Allenamento(DateTime.parse('2020-04-07 20:30'), "Via di Qua, 7, Bologna", "40017", ""),
-    Allenamento(DateTime.parse('2020-04-10 20:30'), "Via di Qua, 7, Bologna", "40017", ""),
-    Allenamento(DateTime.parse('2020-04-12 20:30'), "Via di Qua, 7, Bologna", "40017", "Tizio"),
-    Allenamento(DateTime.parse('2020-04-15 20:30'), "Via di Qua, 7, Bologna", "40017", ""),
+    Allenamento(
+        dataEORa: DateTime.parse('2020-04-01 20:30'),
+        luogo: 'Via di Qua, 7, Bologna',
+        idSquadra: '00001',
+        turnoCibo: 'Caio'),
+    Allenamento(dataEORa: DateTime.parse('2020-04-03 20:30'), luogo: 'Via di Qua, 7, Bologna', idSquadra: '00001'),
+    Allenamento(dataEORa: DateTime.parse('2020-04-04 20:30'), luogo: 'Via di Qua, 7, Bologna', idSquadra: '00001'),
+    Allenamento(dataEORa: DateTime.parse('2020-04-06 20:30'), luogo: 'Via di Qua, 7, Bologna', idSquadra: '00001'),
   ];
 
   void _editDateTime(Allenamento a) {
@@ -30,19 +33,50 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
   }
 
   void _showEditAllenamento(Allenamento a) {
+    TextEditingController _controller = TextEditingController(text: a.luogo);
+
     showModalBottomSheet(
         context: context,
         builder: (context) {
           return Container(
+            color: Colors.grey[300],
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
             child: Column(
               children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("${formatter.format(a.dataEORa)}"),
-                    RaisedButton(onPressed: () => _editDateTime(a), child: Text('Cambia'))
+                    Text('${formatter.format(a.dataEORa)}'),
+                    RaisedButton(
+                      onPressed: () => _editDateTime(a),
+                      child: Text('Cambia'),
+                      color: Colors.orangeAccent,
+                    )
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  decoration: TextInputDecoration,
+                  controller: _controller,
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () {},
+                      color: Colors.redAccent,
+                      child: Text('Elimina'),
+                    ),
+                    RaisedButton(
+                      onPressed: () {},
+                      color: Colors.orangeAccent,
+                      child: Text('Conferma'),
+                    ),
+                  ],
+                )
               ],
             ),
           );
@@ -63,21 +97,22 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
               itemCount: allenamenti.length,
               itemBuilder: (BuildContext ctx, int index) {
                 Allenamento all = allenamenti[index];
+                print(all);
                 return InkWell(
                   onTap: () => _showEditAllenamento(all),
                   child: ListTile(
                     title: Text(formatter.format(all.dataEORa)),
                     subtitle: Text(all.luogo + (all.turnoCibo != '' ? '\nTurno Cibo: ${all.turnoCibo}' : '')),
-                    trailing: Icon(
-                      Icons.remove_circle,
-                      color: Colors.redAccent,
-                    ),
                   ),
                 );
               },
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showEditAllenamento(Allenamento()),
+        child: Icon(Icons.add),
       ),
     );
   }
