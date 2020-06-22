@@ -22,6 +22,7 @@ class _ViewRegisterState extends State<ViewRegister> {
   String password = '';
   String nome = '';
   String cognome = '';
+  String displayName = '';
   Ruolo ruolo = Ruolo.Coach;
   String error = '';
 
@@ -92,9 +93,9 @@ class _ViewRegisterState extends State<ViewRegister> {
                         ),
                         TextFormField(
                           decoration: TextInputDecoration.copyWith(hintText: 'DisplayName'),
-                          validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
+                          validator: (value) => value.isEmpty ? 'Inserire il Display Name' : null,
                           onChanged: (value) {
-                            setState(() => cognome = value);
+                            setState(() => displayName = value);
                           },
                         ),
                         SizedBox(
@@ -135,7 +136,8 @@ class _ViewRegisterState extends State<ViewRegister> {
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               setState(() => loading = true);
-                              dynamic result = await _auth.registerUser(email, password, nome, cognome, 'test', ruolo);
+                              dynamic result =
+                                  await _auth.registerUser(email, password, nome, cognome, displayName, ruolo);
                               if (result == null) {
                                 setState(() {
                                   error = 'please supply a valid email';
