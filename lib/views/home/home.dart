@@ -1,7 +1,6 @@
 import 'package:alley_app/model/data.dart';
 import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/auth.dart';
-import 'package:alley_app/services/database.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:alley_app/shared/tile.dart';
 import 'package:alley_app/views/informazioni/view_calendario.dart';
@@ -9,6 +8,7 @@ import 'package:alley_app/views/informazioni/view_certificato.dart';
 import 'package:alley_app/views/informazioni/view_classifica.dart';
 import 'package:alley_app/views/squadra/registra_squadra.dart';
 import 'package:alley_app/views/squadra/view_allenamenti.dart';
+import 'package:alley_app/views/squadra/view_certificati.dart';
 import 'package:alley_app/views/squadra/view_convocazioni.dart';
 import 'package:alley_app/views/squadra/view_giocatori.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ Map<Ruolo, List<dynamic>> tiles = {
     ['assets/training.png', 'Allenamenti', ViewAllenamenti()],
     ['assets/calendario.png', 'Calendario', ViewCalendario()],
     ['assets/classifica.png', 'Classifica', ViewClassifica()],
+    ['assets/certificato.png', 'Certificati', ViewCertificati()],
   ],
   Ruolo.Giocatore: [
     ['assets/calendario.png', 'Calendario', ViewCalendario()],
