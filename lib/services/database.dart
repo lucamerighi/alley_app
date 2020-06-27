@@ -30,6 +30,18 @@ class DatabaseService {
     return await usersCollection.document(uid).get().then((doc) => doc['idSquadra']);
   }
 
+  Stream<List<String>> getTeamMembers(String idSquadra) {
+    var res = teamsCollection.where('idSquadra', isEqualTo: idSquadra).snapshots().map(_playerNamesFromSnapshot);
+    return res;
+  }
+
+  List<String> _playerNamesFromSnapshot(QuerySnapshot snap) {
+    DocumentSnapshot doc = snap.documents[0];
+    var info = doc.data['infoGiocatori'];
+    var res = info.map((i) => "${i['nome']} ${i['cognome']} (${i['displayName']})");
+    return res;
+  }
+
   Future updateCertificato(DateTime scadenza) async {
     await usersCollection.document(currentUser.uid).updateData({'scadenzaCertificato': scadenza});
     InfoGiocatore infoGiocatore = InfoGiocatore(
