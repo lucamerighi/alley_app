@@ -1,3 +1,4 @@
+import 'package:alley_app/model/info_giocatore.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/views/squadra/aggiungi_giocatore.dart';
 import 'package:alley_app/services/service_locator.dart';
@@ -26,10 +27,10 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
           });
     }
 
-    return StreamBuilder<List<String>>(
+    return StreamBuilder<List<InfoGiocatore>>(
         stream: dbService.getTeamMembers(dbService.currentUser.idSquadra),
         builder: (context, snapshot) {
-          List<String> giocatori = snapshot.data;
+          List<InfoGiocatore> giocatori = snapshot.data;
           return Scaffold(
             appBar: AppBar(
               title: Text("Elenco Giocatori: "),
@@ -41,13 +42,12 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
                     separatorBuilder: (BuildContext context, int index) => Divider(
                       color: Colors.grey[700],
                     ),
-                    itemCount: giocatori.length,
+                    itemCount: giocatori?.length ?? 0,
                     itemBuilder: (BuildContext ctx, int index) {
                       return ListTile(
-                        title: Text(giocatori[index]),
+                        title: Text(giocatori[index].toString()),
                         trailing: GestureDetector(
-                          // TODO
-                          onTap: () => {},
+                          onTap: () => dbService.removePlayer(giocatori[index]),
                           child: Icon(
                             Icons.remove_circle,
                             color: Colors.redAccent,
