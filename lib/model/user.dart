@@ -28,8 +28,7 @@ class User {
         nome: snapshot['nome'],
         cognome: snapshot['cognome'],
         displayName: snapshot['displayName'],
-        ruolo:
-            Ruolo.values.firstWhere((r) => r.toString() == snapshot['ruolo']),
+        ruolo: Ruolo.values.firstWhere((r) => r.toString() == snapshot['ruolo']),
         idSquadra: snapshot['idSquadra'],
         scadenzaCertificato: snapshot['scadenzaCertificato']?.toDate());
   }
