@@ -1,3 +1,5 @@
+import 'package:alley_app/services/database.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,7 @@ class AggiungiGiocatoreForm extends StatefulWidget {
 
 class _AggiungiGiocatoreFormState extends State<AggiungiGiocatoreForm> {
   final _formKey = GlobalKey<FormState>();
+  final dbService = getIt<DatabaseService>();
   String email = '';
 
   @override
@@ -30,8 +33,10 @@ class _AggiungiGiocatoreFormState extends State<AggiungiGiocatoreForm> {
               'Aggiungi',
               style: TextStyle(color: Colors.white),
             ),
-            // TODO
-            onPressed: () async {},
+            onPressed: () async {
+              dbService.addPlayer(email);
+              Navigator.pop(context);
+            },
           )
         ],
       ),
