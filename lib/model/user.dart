@@ -28,9 +28,10 @@ class User {
         nome: snapshot['nome'],
         cognome: snapshot['cognome'],
         displayName: snapshot['displayName'],
-        ruolo: Ruolo.values.firstWhere((r) => r.toString() == snapshot['ruolo']),
+        ruolo:
+            Ruolo.values.firstWhere((r) => r.toString() == snapshot['ruolo']),
         idSquadra: snapshot['idSquadra'],
-        scadenzaCertificato: snapshot['scadenzaCertificato']);
+        scadenzaCertificato: snapshot['scadenzaCertificato']?.toDate());
   }
 
   Map<String, dynamic> toJson() => {
@@ -38,7 +39,7 @@ class User {
         'email': email,
         'nome': nome,
         'cognome': cognome,
-        'displayname': displayName,
+        'displayName': displayName,
         'ruolo': ruolo,
         'idSquadra': idSquadra,
         'scadenzaCertificato': scadenzaCertificato

@@ -10,15 +10,21 @@ class ViewCertificato extends StatefulWidget {
 
 class _ViewCertificatoState extends State<ViewCertificato> {
   final DatabaseService _dbService = getIt<DatabaseService>();
-  DateTime data = DateTime.now();
+  DateTime data;
   var formatter = new DateFormat('dd-MM-yyyy');
+
+  @override
+  void initState() {
+    super.initState();
+    data = _dbService.currentUser.scadenzaCertificato;
+  }
 
   @override
   Widget build(BuildContext context) {
     Future<Null> _selectDate(BuildContext context) async {
       final DateTime picked = await showDatePicker(
           context: context,
-          initialDate: data,
+          initialDate: data ?? DateTime.now(),
           firstDate: DateTime(2015, 8),
           lastDate: DateTime(2101));
       if (picked != null && picked != data) {
@@ -43,7 +49,7 @@ class _ViewCertificatoState extends State<ViewCertificato> {
               style: TextStyle(fontSize: 20),
             ),
             Text(
-              formatter.format(data.toLocal()),
+              data != null ? formatter.format(data) : 'Data assente',
               style: TextStyle(color: Colors.red, fontSize: 24),
             ),
             SizedBox(height: 60),
