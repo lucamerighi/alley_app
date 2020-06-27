@@ -1,3 +1,5 @@
+import 'package:alley_app/services/database.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,20 +9,24 @@ class ViewCertificato extends StatefulWidget {
 }
 
 class _ViewCertificatoState extends State<ViewCertificato> {
+  final DatabaseService _dbService = getIt<DatabaseService>();
   DateTime data = DateTime.now();
   var formatter = new DateFormat('dd-MM-yyyy');
 
   @override
   Widget build(BuildContext context) {
-    DateTime selectedDate = DateTime.now();
-
     Future<Null> _selectDate(BuildContext context) async {
       final DateTime picked = await showDatePicker(
-          context: context, initialDate: selectedDate, firstDate: DateTime(2015, 8), lastDate: DateTime(2101));
-      if (picked != null && picked != selectedDate)
+          context: context,
+          initialDate: data,
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime(2101));
+      if (picked != null && picked != data) {
         setState(() {
-          selectedDate = picked;
+          data = picked;
         });
+        _dbService.updateCertificato(picked);
+      }
     }
 
     return Scaffold(
