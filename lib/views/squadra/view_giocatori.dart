@@ -1,5 +1,9 @@
+import 'package:alley_app/model/info_giocatore.dart';
+import 'package:alley_app/services/database.dart';
 import 'package:alley_app/views/squadra/aggiungi_giocatore.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ViewGiocatori extends StatefulWidget {
   @override
@@ -7,7 +11,7 @@ class ViewGiocatori extends StatefulWidget {
 }
 
 class _ViewGiocatoriState extends State<ViewGiocatori> {
-  List<String> giocatori = List.generate(20, (index) => 'Player $index)');
+  DatabaseService dbService = getIt<DatabaseService>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,43 +27,47 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
           });
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Elenco Giocatori: "),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                color: Colors.grey[700],
-              ),
-              itemCount: giocatori.length,
-              itemBuilder: (BuildContext ctx, int index) {
-                return ListTile(
-                  title: Text(giocatori[index]),
-                  trailing: GestureDetector(
-                    // TODO
-                    onTap: () => {},
-                    child: Icon(
-                      Icons.remove_circle,
-                      color: Colors.redAccent,
+    return StreamBuilder<List<InfoGiocatore>>(
+        stream: dbService.getTeamMembers(dbService.currentUser.idSquadra),
+        builder: (context, snapshot) {
+          List<InfoGiocatore> giocatori = snapshot.data;
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Elenco Giocatori: "),
+            ),
+            body: Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView.separated(
+                    separatorBuilder: (BuildContext context, int index) => Divider(
+                      color: Colors.grey[700],
                     ),
+                    itemCount: giocatori?.length ?? 0,
+                    itemBuilder: (BuildContext ctx, int index) {
+                      return ListTile(
+                        title: Text(giocatori[index].toString()),
+                        trailing: GestureDetector(
+                          onTap: () => dbService.removePlayer(giocatori[index]),
+                          child: Icon(
+                            Icons.remove_circle,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: RaisedButton(
+                    onPressed: () => _showAddPlayer(),
+                    child: Text('Aggiungi Giocatore'),
+                    color: Colors.orangeAccent,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: RaisedButton(
-              onPressed: () => _showAddPlayer(),
-              child: Text('Aggiungi Giocatore'),
-              color: Colors.orangeAccent,
-            ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }
