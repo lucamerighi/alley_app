@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class InfoGiocatore {
   String nome;
   String cognome;
@@ -13,12 +11,12 @@ class InfoGiocatore {
     this.scadenzaCertificato,
   });
 
-  static InfoGiocatore fromSnapshot(Map<String, dynamic> snapshot) {
+  static InfoGiocatore fromJson(Map<String, dynamic> json) {
     return InfoGiocatore(
-        nome: snapshot['nome'],
-        cognome: snapshot['cognome'],
-        displayName: snapshot['displayName'],
-        scadenzaCertificato: snapshot['scadenzaCertificato']?.toDate());
+        nome: json['nome'],
+        cognome: json['cognome'],
+        displayName: json['displayName'],
+        scadenzaCertificato: json['scadenzaCertificato']?.toDate());
   }
 
   Map<String, dynamic> toJson() => {

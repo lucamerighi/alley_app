@@ -27,7 +27,7 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
     }
 
     return StreamBuilder<List<InfoGiocatore>>(
-        stream: dbService.getTeamMembersInfo(dbService.currentUser.idSquadra),
+        stream: dbService.getTeamMembersInfoStream(dbService.currentUser.idSquadra),
         builder: (context, snapshot) {
           List<InfoGiocatore> infoGiocatori = snapshot.data;
           return Scaffold(

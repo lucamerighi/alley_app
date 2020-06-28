@@ -1,3 +1,4 @@
+import 'package:alley_app/model/convocazione.dart';
 import 'package:alley_app/model/info_giocatore.dart';
 import 'package:alley_app/model/partita.dart';
 import 'package:alley_app/services/database.dart';
@@ -6,10 +7,12 @@ import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:flutter/material.dart';
 
+// View della convocazione per il Coach
 class EditConvocazione extends StatefulWidget {
   final Partita partita;
+  final String casaOspite;
 
-  const EditConvocazione({Key key, this.partita}) : super(key: key);
+  const EditConvocazione({Key key, this.partita, this.casaOspite}) : super(key: key);
 
   @override
   _EditConvocazionState createState() => _EditConvocazionState();
@@ -72,13 +75,13 @@ class _EditConvocazionState extends State<EditConvocazione> {
                   child: RaisedButton(
                     onPressed: () {
                       String uid = widget.partita.uid;
-                      String casaOspite =
-                          widget.partita.casa.idSquadra == dbService.currentUser.idSquadra ? 'casa' : 'ospite';
+
                       List<Convocazione> convocazioni = [];
                       values.keys.forEach((info) {
                         if (values[info]) convocazioni.add(Convocazione.fromInfo(info));
                       });
-                      partiteService.updateConvocazioni(uid, casaOspite, convocazioni);
+                      partiteService.updateConvocazioni(uid, widget.casaOspite, convocazioni);
+                      Navigator.pop(context);
                     },
                     color: Colors.orangeAccent,
                     child: Text('Conferma'),

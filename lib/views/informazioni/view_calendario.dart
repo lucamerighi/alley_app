@@ -4,7 +4,6 @@ import 'package:alley_app/model/partita.dart';
 import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/services/eventi_db.dart';
-import 'package:alley_app/services/partite_db.dart';
 import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -187,6 +186,11 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       SizedBox(height: 20),
+      RaisedButton(
+        color: Colors.orangeAccent,
+        onPressed: () => {print('hi')},
+        child: Text('Turno Cibo'),
+      )
     ];
   }
 

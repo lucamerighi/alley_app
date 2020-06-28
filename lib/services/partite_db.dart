@@ -1,7 +1,7 @@
-import 'dart:convert';
-
+import 'package:alley_app/model/convocazione.dart';
 import 'package:alley_app/model/info_giocatore.dart';
 import 'package:alley_app/model/partita.dart';
+import 'package:alley_app/model/squadra_partecipante.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/services/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,13 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PartiteDbService {
   final gamesCollection = Firestore.instance.collection('games');
   final DatabaseService dbService = getIt<DatabaseService>();
-
-  //   doc.updateData({"infoGiocatori": FieldValue.arrayRemove(val)});
-
-  // val = [];
-  // infoGiocatore.scadenzaCertificato = scadenza;
-  // val.add(infoGiocatore.toJson());
-  // doc.updateData({"infoGiocatori": FieldValue.arrayUnion(val)});
 
   updateConvocazioni(String uid, String casaOspite, List<Convocazione> convocazioni) {
     gamesCollection.document(uid).updateData({'$casaOspite.convocazioni': FieldValue.delete()});
@@ -26,7 +19,7 @@ class PartiteDbService {
 
   Future<Map> getConvocazioniAndMembers(String uid) async {
     String idSquadra = dbService.currentUser.idSquadra;
-    List<InfoGiocatore> teamMembers = await dbService.getTeamMembersInfoList(idSquadra);
+    List<InfoGiocatore> teamMembers = await dbService.getTeamMembersInfoFuture(idSquadra);
     Partita partita = Partita.fromJson((await gamesCollection.document(uid).get()).data);
     List<Convocazione> convocazioni =
         partita.casa.idSquadra == idSquadra ? partita.casa.convocazioni : partita.ospite.convocazioni;

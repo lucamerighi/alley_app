@@ -59,11 +59,11 @@ class DatabaseService {
     doc.updateData({"infoGiocatori": FieldValue.arrayUnion(val)});
   }
 
-  Future<List<InfoGiocatore>> getTeamMembersInfoList(String idSquadra) async {
+  Future<List<InfoGiocatore>> getTeamMembersInfoFuture(String idSquadra) async {
     return _playerInfoFromSnapshot(await teamsCollection.where('idSquadra', isEqualTo: idSquadra).getDocuments());
   }
 
-  Stream<List<InfoGiocatore>> getTeamMembersInfo(String idSquadra) {
+  Stream<List<InfoGiocatore>> getTeamMembersInfoStream(String idSquadra) {
     var res = teamsCollection.where('idSquadra', isEqualTo: idSquadra).snapshots().map(_playerInfoFromSnapshot);
     return res;
   }
@@ -72,7 +72,7 @@ class DatabaseService {
     DocumentSnapshot doc = snap.documents[0];
     List<Object> info = doc.data['infoGiocatori'];
     List<InfoGiocatore> res = [];
-    info.forEach((i) => res.add(InfoGiocatore.fromSnapshot(i)));
+    info.forEach((i) => res.add(InfoGiocatore.fromJson(i)));
     return res;
   }
 
