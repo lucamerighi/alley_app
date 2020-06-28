@@ -12,7 +12,7 @@ class AllenamentoDbService {
     return _practicesFromSnapshot(await practiceCollection.where('idSquadra', isEqualTo: idSquadra).getDocuments());
   }
 
-  Stream<List<Allenamento>> getPractices(String idSquadra) {
+  Stream<List<Allenamento>> getPracticesStream(String idSquadra) {
     var res = practiceCollection.where('idSquadra', isEqualTo: idSquadra).snapshots().map(_practicesFromSnapshot);
     return res;
   }

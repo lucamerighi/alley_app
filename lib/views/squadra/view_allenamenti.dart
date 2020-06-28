@@ -101,7 +101,7 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Allenamento>>(
-        stream: allenamentoDbService.getPractices(dbService.currentUser.idSquadra),
+        stream: allenamentoDbService.getPracticesStream(dbService.currentUser.idSquadra),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             allenamenti = snapshot.data;
