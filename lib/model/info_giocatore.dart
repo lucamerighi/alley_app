@@ -32,4 +32,10 @@ class InfoGiocatore {
   String toString() {
     return '$nome $cognome ($displayName)';
   }
+
+  @override
+  bool operator ==(i) => i is InfoGiocatore && i.toString() == this.toString();
+
+  @override
+  int get hashCode => super.hashCode;
 }

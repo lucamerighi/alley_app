@@ -59,6 +59,10 @@ class DatabaseService {
     doc.updateData({"infoGiocatori": FieldValue.arrayUnion(val)});
   }
 
+  Future<List<InfoGiocatore>> getTeamMembersInfoList(String idSquadra) async {
+    return _playerInfoFromSnapshot(await teamsCollection.where('idSquadra', isEqualTo: idSquadra).getDocuments());
+  }
+
   Stream<List<InfoGiocatore>> getTeamMembersInfo(String idSquadra) {
     var res = teamsCollection.where('idSquadra', isEqualTo: idSquadra).snapshots().map(_playerInfoFromSnapshot);
     return res;

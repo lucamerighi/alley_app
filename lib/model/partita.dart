@@ -1,4 +1,5 @@
 import 'package:alley_app/model/evento.dart';
+import 'package:alley_app/model/info_giocatore.dart';
 
 class Partita extends Evento {
   SquadraPartecipante casa;
@@ -59,8 +60,24 @@ class Convocazione {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        'cognome': cognome,
+        'nome': nome,
+        'displayName': displayName,
+      };
+
+  static Convocazione fromInfo(InfoGiocatore info) {
+    return Convocazione(cognome: info.cognome, nome: info.nome, displayName: info.displayName);
+  }
+
   @override
   String toString() {
     return '$nome $cognome ($displayName)';
   }
+
+  @override
+  bool operator ==(c) => c.toString() == this.toString();
+
+  @override
+  int get hashCode => super.hashCode;
 }
