@@ -1,6 +1,5 @@
 import 'package:alley_app/model/partita.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 
 class PartiteDb {
   final gamesCollection = Firestore.instance.collection('games');
