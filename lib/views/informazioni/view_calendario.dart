@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-DateFormat formatter = DateFormat('dd/MM/yy hh:mm');
+DateFormat formatter = DateFormat('dd/MM/yy HH:mm');
 
 class ViewCalendario extends StatefulWidget {
   @override
@@ -136,6 +136,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
                 decoration: BoxDecoration(
                   border: Border.all(width: 0.8),
                   borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.orange[200],
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
@@ -143,15 +144,57 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
                     formatter.format(event.dataEOra),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  trailing: Text(
-                    event is Partita ? 'Partita' : 'Allenamento',
-                    style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-                  ),
+                  trailing: event is Partita
+                      ? Text('PARTITA', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold))
+                      : Text('ALLENAMENTO', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
                   subtitle: Text(event.luogo),
-                  onTap: () => print('$event tapped!'),
+                  onTap: () => _showEventDetail(event),
                 ),
               ))
           .toList(),
+    );
+  }
+
+  _showEventDetail(event) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        if (event is Partita) {
+          Partita p = event;
+          return Container(
+            color: Colors.orange[100],
+            height: 400,
+            child: Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('Partita', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 20),
+                  Text(
+                    '${formatter.format(p.dataEOra)} ${p.luogo}',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    '${p.casa.nome} ${p.casa.punti > 0 ? p.casa.punti : ""}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Text('vs'),
+                  Text(
+                    '${p.ospite.nome} ${p.ospite.punti > 0 ? p.ospite.punti : ""}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        } else {
+          //TODO: allenamento
+          return Container();
+        }
+      },
     );
   }
 }

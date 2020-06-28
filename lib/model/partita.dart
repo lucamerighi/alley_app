@@ -56,4 +56,9 @@ class Convocazione {
       displayName: json['displayName'] ?? '',
     );
   }
+
+  @override
+  String toString() {
+    return '$nome $cognome ($displayName)';
+  }
 }
