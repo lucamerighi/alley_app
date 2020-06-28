@@ -141,7 +141,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
                   title: Text(
-                    formatter.format(event.dataEOra),
+                    event.dataEOra != null ? formatter.format(event.dataEOra) : 'Data assente',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   trailing: event is Partita
