@@ -1,10 +1,15 @@
+import 'package:alley_app/model/evento.dart';
 import 'package:alley_app/model/partita.dart';
 import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/services/partite_db.dart';
 import 'package:alley_app/services/service_locator.dart';
+import 'package:alley_app/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+DateFormat formatter = DateFormat('dd/MM/yy hh:mm');
 
 class ViewCalendario extends StatefulWidget {
   @override
@@ -13,7 +18,8 @@ class ViewCalendario extends StatefulWidget {
 
 class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStateMixin {
   Map<DateTime, List> _events = {};
-  List _selectedEvents;
+  List _selectedEvents = [];
+  DateTime _selectedDay;
   AnimationController _animationController;
   CalendarController _calendarController;
   User user = getIt<DatabaseService>().currentUser;
@@ -21,7 +27,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
   @override
   void initState() {
     super.initState();
-    final _selectedDay = DateTime.now();
+    _selectedDay = DateTime.now();
 
     // _events = {
     //   _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7', 'Event D8'],
@@ -64,35 +70,37 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Partita>>(
-        stream: PartiteDb().getPartite(user.idSquadra),
+    return FutureBuilder<List<Partita>>(
+        future: PartiteDb().getPartite(user.idSquadra),
         builder: (context, snapshot) {
           // print('data: ${snapshot.data}');
           // print('error: ${snapshot.error}');
-          List<Partita> partite = snapshot.data;
-
-          partite.forEach((p) {
-            if (_events.containsKey(p.dataEOra)) {
-              _events[p.dataEOra].add(p);
-              _events[p.dataEOra] = Set.from(_events[p.dataEOra]).toList();
-            } else {
-              _events[p.dataEOra] = [p];
-            }
-          });
-          print(_events);
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Calendario'),
-            ),
-            body: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                _buildTableCalendar(),
-                SizedBox(height: 16),
-                Expanded(child: _buildEventList()),
-              ],
-            ),
-          );
+          if (snapshot.hasData) {
+            List<Partita> partite = snapshot.data;
+            partite.forEach((p) {
+              if (_events.containsKey(p.dataEOra) && !_events[p.dataEOra].contains(p)) {
+                _events[p.dataEOra].add(p);
+              } else {
+                _events[p.dataEOra] = [p];
+              }
+            });
+            // print(_events);
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Calendario'),
+              ),
+              body: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  _buildTableCalendar(),
+                  SizedBox(height: 16),
+                  Expanded(child: _buildEventList()),
+                ],
+              ),
+            );
+          } else {
+            return Loading();
+          }
         });
   }
 
@@ -131,7 +139,15 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
-                  title: Text(event.toString()),
+                  title: Text(
+                    formatter.format(event.dataEOra),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  trailing: Text(
+                    event is Partita ? 'Partita' : 'Allenamento',
+                    style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(event.luogo),
                   onTap: () => print('$event tapped!'),
                 ),
               ))

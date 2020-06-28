@@ -5,10 +5,14 @@ import 'package:rxdart/rxdart.dart';
 class PartiteDb {
   final gamesCollection = Firestore.instance.collection('games');
 
-  Stream<List<Partita>> getPartite(String idSquadra) {
+  Future<List<Partita>> getPartite(String idSquadra) async {
     var stream1 = gamesCollection.where('casa.idSquadra', isEqualTo: idSquadra).snapshots().map(_partiteFromSnapshot);
     var stream2 = gamesCollection.where('ospite.idSquadra', isEqualTo: idSquadra).snapshots().map(_partiteFromSnapshot);
-    return MergeStream([stream1, stream2]);
+    List<Partita> partiteCasa =
+        _partiteFromSnapshot(await gamesCollection.where('casa.idSquadra', isEqualTo: idSquadra).getDocuments());
+    List<Partita> partiteOspite =
+        _partiteFromSnapshot(await gamesCollection.where('ospite.idSquadra', isEqualTo: idSquadra).getDocuments());
+    return List.from(partiteCasa)..addAll(partiteOspite);
   }
 
   List<Partita> _partiteFromSnapshot(QuerySnapshot snap) {
