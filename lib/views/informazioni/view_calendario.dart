@@ -1,7 +1,9 @@
+import 'package:alley_app/model/allenamento.dart';
 import 'package:alley_app/model/evento.dart';
 import 'package:alley_app/model/partita.dart';
 import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/database.dart';
+import 'package:alley_app/services/eventi_db.dart';
 import 'package:alley_app/services/partite_db.dart';
 import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/loading.dart';
@@ -28,13 +30,6 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
   void initState() {
     super.initState();
     _selectedDay = DateTime.now();
-
-    // _events = {
-    //   _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7', 'Event D8'],
-    //   _selectedDay.add(Duration(days: 1)): ['Event A8'],
-    //   _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
-    // };
-
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
 
@@ -42,7 +37,6 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-
     _animationController.forward();
   }
 
@@ -70,21 +64,21 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Partita>>(
-        future: PartiteDb().getPartite(user.idSquadra),
+    return FutureBuilder<List<Evento>>(
+        future: getIt<EventiDbService>().getEventi(user.idSquadra),
         builder: (context, snapshot) {
           // print('data: ${snapshot.data}');
           // print('error: ${snapshot.error}');
           if (snapshot.hasData) {
-            List<Partita> partite = snapshot.data;
-            partite.forEach((p) {
-              if (_events.containsKey(p.dataEOra) && !_events[p.dataEOra].contains(p)) {
-                _events[p.dataEOra].add(p);
+            List<Evento> eventi = snapshot.data;
+            eventi.forEach((e) {
+              if (_events.containsKey(e.day) && !_events[e.day].contains(e)) {
+                _events[e.day].add(e);
               } else {
-                _events[p.dataEOra] = [p];
+                _events[e.day] = [e];
               }
             });
-            // print(_events);
+            print(_events);
             return Scaffold(
               appBar: AppBar(
                 title: Text('Calendario'),
@@ -157,44 +151,55 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
 
   _showEventDetail(event) {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       context: context,
       builder: (context) {
-        if (event is Partita) {
-          Partita p = event;
-          return Container(
-            color: Colors.orange[100],
-            height: 400,
-            child: Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('Partita', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 20),
-                  Text(
-                    '${formatter.format(p.dataEOra)} ${p.luogo}',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    '${p.casa.nome} ${p.casa.punti > 0 ? p.casa.punti : ""}',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  Text('vs'),
-                  Text(
-                    '${p.ospite.nome} ${p.ospite.punti > 0 ? p.ospite.punti : ""}',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ),
+        return Container(
+          height: 400,
+          child: Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: event is Partita ? _buildPartita(event) : _buildAllenamento(event),
             ),
-          );
-        } else {
-          //TODO: allenamento
-          return Container();
-        }
+          ),
+        );
       },
     );
+  }
+
+  List<Widget> _buildPartita(Partita p) {
+    return [
+      Text('Partita', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+      SizedBox(height: 20),
+      Text(
+        '${formatter.format(p.dataEOra)} ${p.luogo}',
+        style: TextStyle(fontSize: 18),
+      ),
+      SizedBox(height: 20),
+      Text(
+        '${p.casa.nome} ${p.casa.punti > 0 ? p.casa.punti : ""}',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      ),
+      Text('vs'),
+      Text(
+        '${p.ospite.nome} ${p.ospite.punti > 0 ? p.ospite.punti : ""}',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      ),
+      SizedBox(height: 20),
+    ];
+  }
+
+  List<Widget> _buildAllenamento(Allenamento a) {
+    return [
+      Text('Allenamento', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+      SizedBox(height: 20),
+      Text(
+        '${formatter.format(a.dataEOra)} ${a.luogo}',
+        style: TextStyle(fontSize: 18),
+      ),
+      SizedBox(height: 20),
+      Text('Turno cibo: ${a.turnoCibo != '' ? a.turnoCibo : "nessuno"}'),
+    ];
   }
 }

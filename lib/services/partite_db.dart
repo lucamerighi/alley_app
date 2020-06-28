@@ -1,7 +1,7 @@
 import 'package:alley_app/model/partita.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PartiteDb {
+class PartiteDbService {
   final gamesCollection = Firestore.instance.collection('games');
 
   Future<List<Partita>> getPartite(String idSquadra) async {

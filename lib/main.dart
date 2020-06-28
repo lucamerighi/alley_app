@@ -1,4 +1,3 @@
-import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/auth.dart';
 import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/views/wrapper.dart';

@@ -8,7 +8,11 @@ class AllenamentoDbService {
     return await practiceCollection.document(id).delete();
   }
 
-  Stream<List<Allenamento>> getPractices(String idSquadra) {
+  Future<List<Allenamento>> getPracticesList(String idSquadra) async {
+    return _practicesFromSnapshot(await practiceCollection.where('idSquadra', isEqualTo: idSquadra).getDocuments());
+  }
+
+  Stream<List<Allenamento>> getPracticesStream(String idSquadra) {
     var res = practiceCollection.where('idSquadra', isEqualTo: idSquadra).snapshots().map(_practicesFromSnapshot);
     return res;
   }
