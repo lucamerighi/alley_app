@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
 class Allenamento {
-  final String id;
+  String id;
   DateTime dataEORa;
   String luogo;
   String idSquadra;
   String turnoCibo;
 
-  Allenamento({DateTime dataEORa, this.luogo = '', this.idSquadra = '', this.turnoCibo = ''})
-      : id = UniqueKey().toString(),
-        dataEORa = dataEORa ?? DateTime.now();
+  Allenamento({this.id = '', DateTime dataEORa, this.luogo = '', this.idSquadra = '', this.turnoCibo = ''})
+      : dataEORa = dataEORa ?? DateTime.now();
 
   String get getId => id;
 
@@ -33,4 +32,21 @@ class Allenamento {
   String toString() {
     return '$dataEORa $luogo $idSquadra $turnoCibo';
   }
+
+  static Allenamento fromJson(String uid, Map<String, dynamic> json) {
+    print('Data e ora: ${json["dataEOra"].toDate()}');
+    return Allenamento(
+        id: uid,
+        dataEORa: json['dataEOra']?.toDate(),
+        idSquadra: json['idSquadra'],
+        luogo: json['luogo'],
+        turnoCibo: json['turnoCibo']);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'dataEOra': dataEORa,
+        'idSquadra': idSquadra,
+        'luogo': luogo,
+        'turnoCibo': turnoCibo,
+      };
 }
