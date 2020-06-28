@@ -3,7 +3,7 @@ class Evento {
   DateTime dataEOra;
   String luogo;
 
-  Evento({this.uid, this.dataEOra, this.luogo});
+  Evento({this.uid = '', DateTime dataEOra, this.luogo}) : dataEOra = dataEOra ?? DateTime.now();
 
   @override
   bool operator ==(e) => e is Evento && e.uid == uid;

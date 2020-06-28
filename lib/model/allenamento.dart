@@ -1,16 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:alley_app/model/evento.dart';
 
-class Allenamento {
-  String id;
-  DateTime dataEORa;
-  String luogo;
+class Allenamento extends Evento {
   String idSquadra;
   String turnoCibo;
 
-  Allenamento({this.id = '', DateTime dataEORa, this.luogo = '', this.idSquadra = '', this.turnoCibo = ''})
-      : dataEORa = dataEORa ?? DateTime.now();
+  Allenamento({uid, dataEOra, luogo, this.idSquadra = '', this.turnoCibo = ''})
+      : super(uid: uid, dataEOra: dataEOra, luogo: luogo);
 
-  String get getId => id;
+  String get getId => uid;
 
   String get getLuogo => luogo;
 
@@ -24,27 +21,27 @@ class Allenamento {
 
   set setTurnoCibo(String turnoCibo) => this.turnoCibo = turnoCibo;
 
-  DateTime get getDataEOra => dataEORa;
+  DateTime get getDataEOra => dataEOra;
 
-  set setDataEOra(DateTime dataEOra) => this.dataEORa = dataEOra;
+  set setDataEOra(DateTime dataEOra) => this.dataEOra = dataEOra;
 
   @override
   String toString() {
-    return '$dataEORa $luogo $idSquadra $turnoCibo';
+    return '$dataEOra $luogo $idSquadra $turnoCibo';
   }
 
   static Allenamento fromJson(String uid, Map<String, dynamic> json) {
     print('Data e ora: ${json["dataEOra"].toDate()}');
     return Allenamento(
-        id: uid,
-        dataEORa: json['dataEOra']?.toDate(),
+        uid: uid,
+        dataEOra: json['dataEOra']?.toDate(),
         idSquadra: json['idSquadra'],
         luogo: json['luogo'],
         turnoCibo: json['turnoCibo']);
   }
 
   Map<String, dynamic> toJson() => {
-        'dataEOra': dataEORa,
+        'dataEOra': dataEOra,
         'idSquadra': idSquadra,
         'luogo': luogo,
         'turnoCibo': turnoCibo,

@@ -24,13 +24,13 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
     DatePicker.showDateTimePicker(context,
         showTitleActions: true,
         minTime: DateTime.now(),
-        maxTime: a.dataEORa.add(Duration(days: 365)), onConfirm: (date) {
+        maxTime: a.dataEOra.add(Duration(days: 365)), onConfirm: (date) {
       if (allenamenti != null && allenamenti.contains(a)) {
         setState(() {
-          if (allenamenti != null) allenamenti.firstWhere((all) => all.id == a.id).dataEORa = date;
+          if (allenamenti != null) allenamenti.firstWhere((all) => all.uid == a.uid).dataEOra = date;
         });
       } else {
-        a.dataEORa = date;
+        a.dataEOra = date;
       }
     }, locale: LocaleType.it);
   }
@@ -49,7 +49,7 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(a.dataEORa != null ? formatter.format(a.dataEORa) : 'Data e ora'),
+                    Text(a.dataEOra != null ? formatter.format(a.dataEOra) : 'Data e ora'),
                     RaisedButton(
                       onPressed: () => _editDateTime(a),
                       child: Text('Cambia'),
@@ -71,11 +71,12 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
                     RaisedButton(
                       onPressed: () async {
                         setState(() => loading = true);
-                        dynamic result = await allenamentoDbService.removePractice(a.id);
+                        dynamic result = await allenamentoDbService.removePractice(a.uid);
                         if (result == null) {
                           setState(() {
                             loading = false;
                           });
+                          Navigator.pop(context);
                         }
                       },
                       color: Colors.redAccent,
@@ -128,7 +129,7 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
                         onTap: () => _showEditAllenamento(all),
                         child: ListTile(
                           title: Text(
-                              all.dataEORa != null ? formatter.format(all.dataEORa) : 'Data e ora non specificate'),
+                              all.dataEOra != null ? formatter.format(all.dataEOra) : 'Data e ora non specificate'),
                           subtitle: Text(all.luogo + (all.turnoCibo != null ? '\nTurno Cibo: ${all.turnoCibo}' : '')),
                           trailing: Icon(Icons.keyboard_arrow_right),
                         ),

@@ -25,8 +25,8 @@ class AllenamentoDbService {
   }
 
   Future updatePractice(Allenamento a) async {
-    if (a.id != '') {
-      return await practiceCollection.document(a.id).setData(a.toJson());
+    if (a.uid != '') {
+      return await practiceCollection.document(a.uid).setData(a.toJson());
     } else {
       return await practiceCollection.document().setData(a.toJson());
     }
