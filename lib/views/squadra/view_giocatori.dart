@@ -25,7 +25,7 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
               onPressed: () => Navigator.pop(context),
             ),
             new FlatButton(
-              child: Text("Sì"),
+              child: Text('Sì'),
               onPressed: () {
                 dbService.removePlayer(info);
                 Navigator.pop(context);
