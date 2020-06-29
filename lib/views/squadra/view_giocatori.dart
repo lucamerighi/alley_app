@@ -21,16 +21,14 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
           content: new Text("Sei sicuro di voler rimuovere ${info.nome} ${info.cognome} dalla squadra?"),
           actions: <Widget>[
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              child: Text("No"),
+              onPressed: () => Navigator.pop(context),
             ),
             new FlatButton(
-              child: new Text("Sì"),
+              child: Text("Sì"),
               onPressed: () {
                 dbService.removePlayer(info);
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
             ),
           ],
