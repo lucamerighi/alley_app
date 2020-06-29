@@ -1,3 +1,4 @@
+import 'package:alley_app/model/allenamento.dart';
 import 'package:alley_app/model/evento.dart';
 import 'package:alley_app/model/partita.dart';
 import 'package:alley_app/model/user.dart';
@@ -13,10 +14,12 @@ class TurnoCiboDbService {
       gamesCollection.document(e.uid).updateData({
         '$casaOspite.turnoCibo': FieldValue.arrayUnion([user.displayName])
       });
+      casaOspite == 'casa' ? e.casa.turnoCibo.add(user.displayName) : e.ospite.turnoCibo.add(user.displayName);
     } else {
       practiceCollection.document(e.uid).updateData({
         'turnoCibo': FieldValue.arrayUnion([user.displayName])
       });
+      (e as Allenamento).turnoCibo.add(user.displayName);
     }
   }
 
@@ -26,10 +29,12 @@ class TurnoCiboDbService {
       gamesCollection.document(e.uid).updateData({
         '$casaOspite.turnoCibo': FieldValue.arrayRemove([user.displayName])
       });
+      casaOspite == 'casa' ? e.casa.turnoCibo.remove(user.displayName) : e.ospite.turnoCibo.remove(user.displayName);
     } else {
       practiceCollection.document(e.uid).updateData({
         'turnoCibo': FieldValue.arrayRemove([user.displayName])
       });
+      (e as Allenamento).turnoCibo.remove(user.displayName);
     }
   }
 }
