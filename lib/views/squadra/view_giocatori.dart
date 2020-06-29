@@ -18,7 +18,7 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("Rimozione giocatore"),
-          content: new Text("Sei sicuro di voler rimuovere questo giocatore dalla squadra?"),
+          content: new Text("Sei sicuro di voler rimuovere ${info.nome} ${info.cognome} dalla squadra?"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("No"),
