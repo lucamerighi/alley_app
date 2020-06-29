@@ -10,6 +10,7 @@ import 'package:alley_app/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 DateFormat formatter = DateFormat('dd/MM/yy HH:mm');
 
@@ -212,6 +213,15 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
       color: Colors.orangeAccent,
       onPressed: () {
         e.isMyTurnoCibo(u) ? turnoCiboDbService.removeTurnoCibo(user, e) : turnoCiboDbService.insertTurnoCibo(user, e);
+        Navigator.pop(context);
+        Fluttertoast.showToast(
+            msg: e.isMyTurnoCibo(u) ? 'Turno cibo inserito' : 'Turno cibo eliminato',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orangeAccent,
+            textColor: Colors.white,
+            fontSize: 16.0);
       },
       child: e.isMyTurnoCibo(u) ? Text('Lascio il turno cibo') : Text('Porto io il cibo!'),
     );
