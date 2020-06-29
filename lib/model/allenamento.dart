@@ -38,9 +38,7 @@ class Allenamento extends Evento {
   static Allenamento fromJson(String uid, Map<String, dynamic> json) {
     print('Data e ora: ${json["dataEOra"].toDate()}');
     List<String> turni = [];
-    if (json['turnoCibo'] != null) {
-      json['turnoCibo'].forEach((t) => turni.add(t));
-    }
+    json['turnoCibo']?.forEach((t) => turni.add(t));
     return Allenamento(
       uid: uid,
       dataEOra: json['dataEOra']?.toDate(),

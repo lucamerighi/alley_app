@@ -189,7 +189,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       SizedBox(height: 20),
-      Text('Turno cibo: ${p.getTurnoCibo(user.idSquadra).isNotEmpty ? p.getTurnoCibo(user.idSquadra) : "nessuno"}'),
+      Text('Turno cibo: ${p.getTurnoCibo(user.idSquadra).isNotEmpty ? p.getTurnoCibo(user.idSquadra) : 'nessuno'}'),
       _showButton(user, p),
     ];
   }
@@ -203,7 +203,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
         style: TextStyle(fontSize: 18),
       ),
       SizedBox(height: 20),
-      Text('Turno cibo: ${a.turnoCibo.isNotEmpty ? a.turnoCibo : "nessuno"}'),
+      Text('Turno cibo: ${a.turnoCibo.isNotEmpty ? a.turnoCibo : 'nessuno'}'),
       _showButton(user, a),
     ];
   }

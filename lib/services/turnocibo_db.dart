@@ -8,7 +8,7 @@ class TurnoCiboDbService {
   final CollectionReference practiceCollection = Firestore.instance.collection('practices');
   final CollectionReference gamesCollection = Firestore.instance.collection('games');
 
-  Future insertTurnoCibo(User user, Evento e) async {
+  insertTurnoCibo(User user, Evento e) async {
     if (e is Partita) {
       String casaOspite = e.casa.idSquadra == user.idSquadra ? "casa" : "ospite";
       gamesCollection.document(e.uid).updateData({
@@ -23,7 +23,7 @@ class TurnoCiboDbService {
     }
   }
 
-  Future removeTurnoCibo(User user, Evento e) async {
+  removeTurnoCibo(User user, Evento e) async {
     if (e is Partita) {
       String casaOspite = e.casa.idSquadra == user.idSquadra ? "casa" : "ospite";
       gamesCollection.document(e.uid).updateData({

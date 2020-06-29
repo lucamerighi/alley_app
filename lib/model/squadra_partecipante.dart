@@ -12,12 +12,11 @@ class SquadraPartecipante {
   static SquadraPartecipante fromJson(Map<String, dynamic> json) {
     List<Convocazione> conv = [];
     List<String> turni = [];
-    if (json['convocazioni'] != null) {
-      json['convocazioni'].forEach((c) => conv.add(Convocazione.fromJson(c)));
-    }
-    if (json['turnoCibo'] != null) {
-      json['turnoCibo'].forEach((t) => turni.add(t));
-    }
+
+    json['convocazioni']?.forEach((c) => conv.add(Convocazione.fromJson(c)));
+
+    json['turnoCibo']?.forEach((t) => turni.add(t));
+
     return SquadraPartecipante(
       idSquadra: json['idSquadra'],
       nome: json['nome'],
