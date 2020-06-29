@@ -190,6 +190,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
       ),
       SizedBox(height: 20),
       Text('Turno cibo: ${p.getTurnoCibo(user.idSquadra).isNotEmpty ? p.getTurnoCibo(user.idSquadra) : 'nessuno'}'),
+      SizedBox(height: 20),
       _showButton(user, p),
     ];
   }
@@ -215,13 +216,13 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
         e.isMyTurnoCibo(u) ? turnoCiboDbService.removeTurnoCibo(user, e) : turnoCiboDbService.insertTurnoCibo(user, e);
         Navigator.pop(context);
         Fluttertoast.showToast(
-            msg: e.isMyTurnoCibo(u) ? 'Turno cibo inserito' : 'Turno cibo eliminato',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.orangeAccent,
-            textColor: Colors.white,
-            fontSize: 16.0);
+          msg: e.isMyTurnoCibo(u) ? 'Turno cibo inserito' : 'Turno cibo eliminato',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       },
       child: e.isMyTurnoCibo(u) ? Text('Lascio il turno cibo') : Text('Porto io il cibo!'),
     );
