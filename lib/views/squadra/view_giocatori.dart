@@ -12,6 +12,31 @@ class ViewGiocatori extends StatefulWidget {
 class _ViewGiocatoriState extends State<ViewGiocatori> {
   DatabaseService dbService = getIt<DatabaseService>();
 
+  void _showDialog(InfoGiocatore info) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Rimozione giocatore"),
+          content: Text(Sei sicuro di voler rimuovere ${info.nome} ${info.cognome} dalla squadra?),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () => Navigator.pop(context),
+            ),
+            FlatButton(
+              child: Text('Sì'),
+              onPressed: () {
+                dbService.removePlayer(info);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     void _showAddPlayer() {
@@ -46,7 +71,7 @@ class _ViewGiocatoriState extends State<ViewGiocatori> {
                       return ListTile(
                         title: Text(infoGiocatori[index].toString()),
                         trailing: GestureDetector(
-                          onTap: () => dbService.removePlayer(infoGiocatori[index]),
+                          onTap: () => _showDialog(infoGiocatori[index]),
                           child: Icon(
                             Icons.remove_circle,
                             color: Colors.redAccent,
