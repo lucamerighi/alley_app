@@ -1,5 +1,6 @@
 import 'package:alley_app/model/evento.dart';
 import 'package:alley_app/model/squadra_partecipante.dart';
+import 'package:alley_app/model/user.dart';
 
 class Partita extends Evento {
   SquadraPartecipante casa;
@@ -15,6 +16,17 @@ class Partita extends Evento {
       casa: SquadraPartecipante.fromJson(json['casa']),
       ospite: SquadraPartecipante.fromJson(json['ospite']),
     );
+  }
+
+  List<String> getTurnoCibo(String idSquadra) {
+    return casa.idSquadra == idSquadra ? casa.turnoCibo : ospite.turnoCibo;
+  }
+
+  @override
+  bool isMyTurnoCibo(User u) {
+    return u.idSquadra == casa.idSquadra
+        ? casa.turnoCibo.contains(u.displayName)
+        : ospite.turnoCibo.contains(u.displayName);
   }
 
   @override
