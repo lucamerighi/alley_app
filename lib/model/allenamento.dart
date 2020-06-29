@@ -1,11 +1,13 @@
 import 'package:alley_app/model/evento.dart';
+import 'package:alley_app/model/user.dart';
 
 class Allenamento extends Evento {
   String idSquadra;
-  String turnoCibo;
+  List<String> turnoCibo;
 
-  Allenamento({uid, dataEOra, luogo, this.idSquadra = '', this.turnoCibo = ''})
-      : super(uid: uid, dataEOra: dataEOra, luogo: luogo);
+  Allenamento({uid, dataEOra, luogo, this.idSquadra = '', List<String> turnoCibo})
+      : turnoCibo = turnoCibo ?? [],
+        super(uid: uid, dataEOra: dataEOra, luogo: luogo);
 
   String get getId => uid;
 
@@ -17,13 +19,16 @@ class Allenamento extends Evento {
 
   set setIdSquadra(String idSquadra) => this.idSquadra = idSquadra;
 
-  String get getTurnoCibo => turnoCibo;
+  List<String> get getTurnoCibo => turnoCibo;
 
-  set setTurnoCibo(String turnoCibo) => this.turnoCibo = turnoCibo;
+  set setTurnoCibo(List<String> turnoCibo) => this.turnoCibo = turnoCibo;
 
   DateTime get getDataEOra => dataEOra;
 
   set setDataEOra(DateTime dataEOra) => this.dataEOra = dataEOra;
+
+  @override
+  bool isMyTurnoCibo(User u) => turnoCibo.contains(u.displayName);
 
   @override
   String toString() {
@@ -32,12 +37,17 @@ class Allenamento extends Evento {
 
   static Allenamento fromJson(String uid, Map<String, dynamic> json) {
     print('Data e ora: ${json["dataEOra"].toDate()}');
+    List<String> turni = [];
+    if (json['turnoCibo'] != null) {
+      json['turnoCibo'].forEach((t) => turni.add(t));
+    }
     return Allenamento(
-        uid: uid,
-        dataEOra: json['dataEOra']?.toDate(),
-        idSquadra: json['idSquadra'],
-        luogo: json['luogo'],
-        turnoCibo: json['turnoCibo']);
+      uid: uid,
+      dataEOra: json['dataEOra']?.toDate(),
+      idSquadra: json['idSquadra'],
+      luogo: json['luogo'],
+      turnoCibo: turni,
+    );
   }
 
   Map<String, dynamic> toJson() => {

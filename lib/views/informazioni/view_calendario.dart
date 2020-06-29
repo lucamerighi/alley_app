@@ -5,6 +5,7 @@ import 'package:alley_app/model/user.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/services/eventi_db.dart';
 import 'package:alley_app/services/service_locator.dart';
+import 'package:alley_app/services/turnocibo_db.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +25,7 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
   AnimationController _animationController;
   CalendarController _calendarController;
   User user = getIt<DatabaseService>().currentUser;
+  TurnoCiboDbService turnoCiboDbService = getIt<TurnoCiboDbService>();
 
   @override
   void initState() {
@@ -186,11 +188,8 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       SizedBox(height: 20),
-      RaisedButton(
-        color: Colors.orangeAccent,
-        onPressed: () => {print('hi')},
-        child: Text('Turno Cibo'),
-      )
+      Text('Turno cibo: ${p.getTurnoCibo(user.idSquadra).isNotEmpty ? p.getTurnoCibo(user.idSquadra) : "nessuno"}'),
+      _showButton(user, p),
     ];
   }
 
@@ -203,7 +202,18 @@ class _ViewCalendarioState extends State<ViewCalendario> with TickerProviderStat
         style: TextStyle(fontSize: 18),
       ),
       SizedBox(height: 20),
-      Text('Turno cibo: ${a.turnoCibo != '' ? a.turnoCibo : "nessuno"}'),
+      Text('Turno cibo: ${a.turnoCibo.isNotEmpty ? a.turnoCibo : "nessuno"}'),
+      _showButton(user, a),
     ];
+  }
+
+  Widget _showButton(User u, Evento e) {
+    return RaisedButton(
+      color: Colors.orangeAccent,
+      onPressed: () {
+        e.isMyTurnoCibo(u) ? turnoCiboDbService.removeTurnoCibo(user, e) : turnoCiboDbService.insertTurnoCibo(user, e);
+      },
+      child: e.isMyTurnoCibo(u) ? Text('Lascio il turno cibo') : Text('Porto io il cibo!'),
+    );
   }
 }
