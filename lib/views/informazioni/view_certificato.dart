@@ -1,3 +1,4 @@
+import 'package:alley_app/services/certificato_db.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/services/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class ViewCertificato extends StatefulWidget {
 
 class _ViewCertificatoState extends State<ViewCertificato> {
   final DatabaseService _dbService = getIt<DatabaseService>();
+  final CertificatoDbService _certificatoDbService = getIt<CertificatoDbService>();
   DateTime data;
   var formatter = new DateFormat('dd-MM-yyyy');
 
@@ -31,7 +33,7 @@ class _ViewCertificatoState extends State<ViewCertificato> {
         setState(() {
           data = picked;
         });
-        _dbService.updateCertificato(picked);
+        _certificatoDbService.updateCertificato(picked, _dbService.currentUser);
       }
     }
 

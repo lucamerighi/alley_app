@@ -37,28 +37,6 @@ class DatabaseService {
     return await usersCollection.document(uid).get().then((doc) => doc['idSquadra']);
   }
 
-  Future updateCertificato(DateTime scadenza) async {
-    await usersCollection.document(currentUser.uid).updateData({'scadenzaCertificato': scadenza});
-    InfoGiocatore infoGiocatore = InfoGiocatore(
-        nome: currentUser.nome,
-        cognome: currentUser.cognome,
-        displayName: currentUser.displayName,
-        scadenzaCertificato: currentUser.scadenzaCertificato);
-
-    currentUser.scadenzaCertificato = scadenza;
-
-    var val = [];
-    val.add(infoGiocatore.toJson());
-    var docs = await teamsCollection.where('idSquadra', isEqualTo: currentUser.idSquadra).getDocuments();
-    var doc = docs.documents.single.reference;
-    doc.updateData({"infoGiocatori": FieldValue.arrayRemove(val)});
-
-    val = [];
-    infoGiocatore.scadenzaCertificato = scadenza;
-    val.add(infoGiocatore.toJson());
-    doc.updateData({"infoGiocatori": FieldValue.arrayUnion(val)});
-  }
-
   Future<List<InfoGiocatore>> getTeamMembersInfoFuture(String idSquadra) async {
     return _playerInfoFromSnapshot(await teamsCollection.where('idSquadra', isEqualTo: idSquadra).getDocuments());
   }
