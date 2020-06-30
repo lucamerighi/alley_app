@@ -122,7 +122,8 @@ class _ViewAllenamentiState extends State<ViewAllenamenti> {
                           child: ListTile(
                             title: Text(
                                 all.dataEOra != null ? formatter.format(all.dataEOra) : 'Data e ora non specificate'),
-                            subtitle: Text(all.luogo + (all.turnoCibo != null ? '\nTurno Cibo: ${all.turnoCibo}' : '')),
+                            subtitle:
+                                Text(all.luogo + (all.turnoCibo.length > 0 ? '\nTurno Cibo: ${all.turnoCibo}' : '')),
                             trailing: Icon(Icons.keyboard_arrow_right),
                           ),
                         );
