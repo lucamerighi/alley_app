@@ -1,5 +1,6 @@
 import 'package:alley_app/services/allenamento_db.dart';
 import 'package:alley_app/services/auth.dart';
+import 'package:alley_app/services/certificato_db.dart';
 import 'package:alley_app/services/database.dart';
 import 'package:alley_app/services/eventi_db.dart';
 import 'package:alley_app/services/partite_db.dart';
@@ -15,4 +16,5 @@ void setup() {
   getIt.registerSingleton<PartiteDbService>(PartiteDbService());
   getIt.registerSingleton<EventiDbService>(EventiDbService());
   getIt.registerSingleton<TurnoCiboDbService>(TurnoCiboDbService());
+  getIt.registerSingleton<CertificatoDbService>(CertificatoDbService());
 }
