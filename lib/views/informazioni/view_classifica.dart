@@ -4,25 +4,13 @@ import 'package:flutter/material.dart';
 var headers = ['#', 'Nome', 'Punti', 'Vinte', 'Perse'];
 
 var righe = [
-  RigaClassifica(1, "Nome Squadra Moolto Lungo", 70, 35, 15),
-  RigaClassifica(2, "WEBKORNER-SICI FIDES MONTEVARC", 70, 35, 15),
-  RigaClassifica(3, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(4, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(6, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(7, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(8, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(9, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(10, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(11, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(12, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(13, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(14, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(15, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(16, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(17, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(18, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(19, "Nome Squadra", 70, 35, 15),
-  RigaClassifica(20, "Nome Squadra", 70, 35, 15),
+  RigaClassifica(1, "Ingegneri del Software", 70, 35, 15),
+  RigaClassifica(2, "Amministratori di Sistemi", 68, 34, 16),
+  RigaClassifica(3, "Sviluppatori Web", 60, 30, 20),
+  RigaClassifica(4, "Code Monkeys", 50, 25, 25),
+  RigaClassifica(5, "Programmatori INPS", 10, 5, 45),
+  RigaClassifica(6, "Fisioterapisti", 2, 1, 49),
+  RigaClassifica(7, "Architetti", 0, 0, 50),
 ];
 
 class ViewClassifica extends StatefulWidget {
