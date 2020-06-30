@@ -7,7 +7,7 @@ class RegistraSquadraDbService {
 
   Future<bool> registerTeam(String idSquadra, String regione, String nome, String girone, Sesso sesso,
       String campionato, String coachId) async {
-    if (await this.teamAlreadySigned(idSquadra)) {
+    if (await this.teamAlreadyRegistered(idSquadra)) {
       return false;
     } else {
       await usersCollection.document(coachId).updateData({'idSquadra': idSquadra});
@@ -23,7 +23,7 @@ class RegistraSquadraDbService {
     }
   }
 
-  Future<bool> teamAlreadySigned(String idSquadra) async {
+  Future<bool> teamAlreadyRegistered(String idSquadra) async {
     var docs = await teamsCollection.where('idSquadra', isEqualTo: idSquadra).getDocuments();
     return docs.documents.length != 0;
   }

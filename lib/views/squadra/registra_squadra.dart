@@ -16,7 +16,7 @@ class ViewRegistraSquadra extends StatefulWidget {
 
 class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
   final _formKey = GlobalKey<FormState>();
-  final DatabaseService _dbService = getIt<DatabaseService>();
+  String uid = getIt<DatabaseService>().currentUser.uid;
   final RegistraSquadraDbService _registraSquadraDbService = getIt<RegistraSquadraDbService>();
   bool loading = false;
 
@@ -146,7 +146,7 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             bool result = await _registraSquadraDbService.registerTeam(
-                                idSquadra, regione, nome, girone, sesso, campionato, _dbService.currentUser.uid);
+                                idSquadra, regione, nome, girone, sesso, campionato, uid);
                             setState(() {
                               loading = false;
                             });
