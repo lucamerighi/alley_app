@@ -1,4 +1,7 @@
-import 'package:alley_app/model/Data.dart';
+import 'package:alley_app/model/data.dart';
+import 'package:alley_app/services/database.dart';
+import 'package:alley_app/services/registrasquadra_db.dart';
+import 'package:alley_app/services/service_locator.dart';
 import 'package:alley_app/shared/loading.dart';
 import 'package:alley_app/shared/styles.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +16,12 @@ class ViewRegistraSquadra extends StatefulWidget {
 
 class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
   final _formKey = GlobalKey<FormState>();
+  String uid = getIt<DatabaseService>().currentUser.uid;
+  final RegistraSquadraDbService _registraSquadraDbService = getIt<RegistraSquadraDbService>();
   bool loading = false;
 
   String regione = 'AB';
-  String id = '';
+  String idSquadra = '';
   String nome = '';
   String girone = '';
   Sesso sesso = Sesso.M;
@@ -71,9 +76,8 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
                         decoration: TextInputDecoration.copyWith(hintText: 'Id Squadra'),
                         validator: (value) => value.length != 5 ? 'L\'ID dev\'essere composto da 5 cifre' : null,
                         onChanged: (value) {
-                          setState(() => id = value);
+                          setState(() => idSquadra = value);
                         },
-                        obscureText: true,
                       ),
                       SizedBox(height: padding),
                       TextFormField(
@@ -86,7 +90,7 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
                       SizedBox(height: padding),
                       TextFormField(
                         decoration: TextInputDecoration.copyWith(hintText: 'Girone'),
-                        validator: (value) => value.isEmpty ? 'Inserire il cognome' : null,
+                        validator: (value) => value.isEmpty ? 'Inserire il girone' : null,
                         onChanged: (value) {
                           setState(() => girone = value);
                         },
@@ -138,8 +142,21 @@ class _ViewRegistraSquadraState extends State<ViewRegistraSquadra> {
                           'Registra Squadra',
                           style: TextStyle(color: Colors.white),
                         ),
-                        // TODO
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            setState(() => loading = true);
+                            bool result = await _registraSquadraDbService.registerTeam(
+                                idSquadra, regione, nome, girone, sesso, campionato, uid);
+                            setState(() {
+                              loading = false;
+                            });
+                            if (result) {
+                              Navigator.pop(context);
+                            } else {
+                              error = 'Squadra già registrata. Cambiare id squadra';
+                            }
+                          }
+                        },
                       ),
                       Text(error)
                     ],
