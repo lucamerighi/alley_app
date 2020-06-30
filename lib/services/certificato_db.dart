@@ -6,7 +6,7 @@ class CertificatoDbService {
   final CollectionReference usersCollection = Firestore.instance.collection('users');
   final CollectionReference teamsCollection = Firestore.instance.collection('teams');
 
-  Future updateCertificato(DateTime scadenza, User u) async {
+  updateCertificato(DateTime scadenza, User u) async {
     await usersCollection.document(u.uid).updateData({'scadenzaCertificato': scadenza});
     InfoGiocatore infoGiocatore = InfoGiocatore(
         nome: u.nome, cognome: u.cognome, displayName: u.displayName, scadenzaCertificato: u.scadenzaCertificato);
